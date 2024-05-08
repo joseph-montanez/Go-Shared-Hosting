@@ -1,0 +1,9 @@
+services:
+  apache-fastcgi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./main.fcgi:/usr/local/apache2/cgi-bin/main.fcgi

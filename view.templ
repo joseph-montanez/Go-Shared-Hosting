@@ -1,0 +1,44 @@
+package main
+
+templ hello(name string) {
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTMX SSE Example</title>
+        <script src="https://unpkg.com/htmx.org"></script>
+    </head>
+    <body>
+        <h1>Server-Sent Events with HTMX</h1>
+	    <div>Hello, { name }</div>
+        <div id="time-display" hx-get="/events" hx-trigger="sse" hx-swap="outerHTML">
+            Waiting for server time updates...
+        </div>
+        <script type="text/javascript">
+            if (!!window.EventSource) {
+                var eventUrl = new URL('events', window.location.href).href;
+                var source = new EventSource(eventUrl);
+
+                source.addEventListener('message', function(e) {
+                    console.log('message', e);
+                    document.getElementById('time-display').innerHTML = e.data;
+                }, false);
+
+                source.addEventListener('open', function(e) {
+                    // Connection was opened.
+                    console.log('open', e);
+                }, false);
+
+                source.addEventListener('error', function(e) {
+                    console.log('error', e);
+                    if (e.readyState == EventSource.CLOSED) {
+                        // Connection was closed.
+                    }
+                }, false);
+            } else {
+                // Browser doesn't support SSE
+                document.getElementById('time-display').innerHTML = "Your browser does not support server-sent events.";
+            }
+        </script>
+    </body>
+    </html>
+}

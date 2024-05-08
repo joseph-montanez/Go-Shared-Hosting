@@ -1,0 +1,5 @@
+# For Fast CGI you can use any extension, not limited to .fgci
+AddHandler fcgid-script .fcgi
+
+# For CGI, again any extension you want
+AddHandler cgi-script .cgi .pl .plx .ppl .perl .py
